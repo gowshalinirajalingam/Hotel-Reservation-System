@@ -1,0 +1,733 @@
+
+import Airproject.dbConnection;
+import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import net.proteanit.sql.DbUtils;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author Gowshalini
+ */
+public class ModifyReservation extends javax.swing.JFrame {
+
+    /**
+     * Creates new form ModifyReservation
+     */
+     Connection con=null;
+     PreparedStatement pst=null;
+     ResultSet rs=null;
+     int ac = 0;
+     int masterbedroom = 0;
+     int breakfast = 0;
+     int lunch = 0 ;
+     int dinner = 0;
+    public ModifyReservation() {
+        initComponents();
+        
+        dbConnection connect=new dbConnection();
+        con=connect.ConnectDB();
+        pageLoad();
+    }
+
+   
+        
+    
+
+    public void pageLoad()
+    {
+    try{
+        ButtonGroup ba=new ButtonGroup();
+        ba.add(Btnay);
+        ba.add(Btnan);
+        
+        ButtonGroup bm=new ButtonGroup();
+        bm.add(jRadioButtonmy);
+        bm.add(jRadioButtonmn);
+        
+        String checkindate = null,checkoutdate = null,maxAdult=null,maxMinor=null,price=null;
+        int ac = 0,masterbedroom=0,breakfast=0,lunch=0,dinner=0;
+       Reservation re=new Reservation();
+        String rid=re.getResId();
+       
+         JOptionPane.showMessageDialog(null,rid);
+        String q="select * from reservation where reservationId='"+rid+"'";
+        pst =con.prepareStatement(q);
+        rs=pst.executeQuery(q);
+     
+        if(rs.next())
+        {
+         checkindate=rs.getString("checkindate");
+         checkoutdate=rs.getString("checkoutdate");
+         ac=rs.getInt("ac");
+         masterbedroom=rs.getInt("masterbedroom");
+         breakfast=rs.getInt("breakfast");
+         lunch=rs.getInt("lunch");
+         dinner=rs.getInt("dinner");
+         price=rs.getString("price")+".00";
+          
+        }
+        
+        String r="select maxAdlut,maxMinor from reservation re,room r where reservationId='"+rid+"' and re.roomNo=r.roomNo";
+        pst =con.prepareStatement(r);
+        rs=pst.executeQuery(r);
+        if(rs.next())
+        {
+         maxAdult=rs.getString("maxAdlut");
+         maxMinor=rs.getString("maxMinor");
+
+        }
+     
+      
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd "); 
+        
+        ((JTextField)jDateChooser1.getDateEditor().getUiComponent()).setText(checkindate);
+        ((JTextField)jDateChooser2.getDateEditor().getUiComponent()).setText(checkoutdate);
+        
+         try{
+           if(ac==1)
+              Btnay.setSelected(true); 
+                    
+           else if(ac==0)
+              Btnan.setSelected(true);
+            
+          
+             }
+         
+         catch(Exception ex)
+            {
+            JOptionPane.showMessageDialog(null,ex);
+            }
+         
+         try{
+             
+              if(masterbedroom==1)
+              jRadioButtonmy.setSelected(true); 
+                    
+           else if(masterbedroom==0)
+              jRadioButtonmn.setSelected(true);
+         
+         
+         }
+         catch(Exception ex)
+            {
+            JOptionPane.showMessageDialog(null,ex);
+            }
+         try{
+             
+              if(breakfast==1)
+              {
+              jCheckBoxBF.setSelected(true); 
+              }    
+              if(lunch==1)
+              {
+              jCheckBoxL.setSelected(true);
+              }
+              if(dinner==1)
+              {
+              jCheckBoxD.setSelected(true);
+              }
+         
+         }
+         catch(Exception ex)
+            {
+            JOptionPane.showMessageDialog(null,ex);
+            }
+           
+         try{
+                jComboBoxa.setSelectedItem(maxAdult); 
+                jComboBoxm.setSelectedItem(maxMinor);      
+            }
+         catch(Exception ex)
+            {
+            JOptionPane.showMessageDialog(null,ex);
+            }
+        
+        try{
+                jLabelp.setText(price); 
+                 
+            }
+         catch(Exception ex)
+            {
+            JOptionPane.showMessageDialog(null,ex);
+            } 
+        
+    }
+    catch(Exception ex)
+    {
+         JOptionPane.showMessageDialog(null,ex);
+    }
+    
+    }
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel2 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        roomCheck = new javax.swing.JTable();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jButton1 = new javax.swing.JButton();
+        Btnay = new javax.swing.JRadioButton();
+        Btnan = new javax.swing.JRadioButton();
+        jRadioButtonmy = new javax.swing.JRadioButton();
+        jRadioButtonmn = new javax.swing.JRadioButton();
+        jCheckBoxBF = new javax.swing.JCheckBox();
+        jCheckBoxL = new javax.swing.JCheckBox();
+        jCheckBoxD = new javax.swing.JCheckBox();
+        jComboBoxa = new javax.swing.JComboBox();
+        jComboBoxm = new javax.swing.JComboBox();
+        jLabelp = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+
+        jLabel6.setFont(new java.awt.Font("American Typewriter", 0, 25)); // NOI18N
+        jLabel6.setText("Check Room Availability");
+
+        jLabel7.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel7.setText("Check-in Date :");
+
+        jLabel11.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel11.setText("Check-out Date :");
+
+        jButton4.setText("Check Availability");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel12.setText("Air Condition :");
+
+        jLabel13.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel13.setText("Master Bedroom :");
+
+        jLabel14.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel14.setText("Food :");
+
+        roomCheck.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Room Number", "Special name", "AC", "Master BedRoom", "Max Adult", "Max Minor", "Price Perday", "Reserved"
+            }
+        ));
+        roomCheck.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                roomCheckMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(roomCheck);
+
+        jLabel15.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel15.setText("Total Price :");
+
+        jLabel8.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel8.setText("Max minors :");
+
+        jLabel5.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel5.setText("Max adults :");
+
+        jLabel9.setFont(new java.awt.Font("American Typewriter", 0, 25)); // NOI18N
+        jLabel9.setText("Check Room Availability");
+
+        jDateChooser1.setDateFormatString("yyyy-MM-dd HH:mm:ss");
+
+        jDateChooser2.setDateFormatString("yyyy-MM-dd HH:mm:ss");
+
+        jButton1.setText("Update");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        Btnay.setText("yes");
+        Btnay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnayActionPerformed(evt);
+            }
+        });
+
+        Btnan.setText("No");
+        Btnan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnanActionPerformed(evt);
+            }
+        });
+
+        jRadioButtonmy.setText("Yes");
+
+        jRadioButtonmn.setText("No");
+        jRadioButtonmn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonmnActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxBF.setText("Breakfast");
+        jCheckBoxBF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxBFActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxL.setText("Lunch");
+
+        jCheckBoxD.setText("Dinner");
+
+        jComboBoxa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4" }));
+
+        jComboBoxm.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", " ", " ", " " }));
+
+        jLabelp.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelp.setText("RS");
+        jLabelp.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jButton2.setText("Calculate Total Price");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(jLabel6))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jRadioButtonmy))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(Btnay)
+                                .addGap(28, 28, 28)
+                                .addComponent(Btnan))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(177, 177, 177)
+                                .addComponent(jLabel9))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabelp, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5)
+                                            .addComponent(jLabel8))
+                                        .addGap(116, 116, 116))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBoxm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBoxa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jCheckBoxBF)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jCheckBoxL)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jCheckBoxD)))
+                                .addGap(80, 80, 80)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(188, 188, 188)
+                                        .addComponent(jRadioButtonmn))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(43, 43, 43)
+                                        .addComponent(jButton1))))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(102, 102, 102)
+                        .addComponent(jButton2)))
+                .addGap(432, 523, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Btnan)
+                            .addComponent(Btnay))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jRadioButtonmy)
+                                    .addComponent(jRadioButtonmn)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(100, 100, 100))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBoxBF)
+                            .addComponent(jCheckBoxD)
+                            .addComponent(jCheckBoxL))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(3, 3, 3)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(jComboBoxm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelp))
+                .addGap(28, 28, 28)
+                .addComponent(jButton2)
+                .addGap(0, 294, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void roomCheckMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roomCheckMouseClicked
+        // TODO add your handling code here:
+
+        /*try {
+            int row = roomCheck.getSelectedRow();
+            int col = 0;//roomCheck.getSelectedColumn();
+            String roomNo = (roomCheck.getModel().getValueAt(row, col).toString());
+            double pricePerDay = (double) roomCheck.getModel().getValueAt(row, 4);
+            String reservedBy = "User";
+
+            SimpleDateFormat dcn = new SimpleDateFormat("dd-MM-yyy");
+            String checkInDate = dcn.format(jDateChooser1.getDate());
+            String checkOutDate = dcn.format(jDateChooser2.getDate());
+            Reservation reserve = new Reservation();
+
+            int ac = jRadioButton1.isSelected()?1:0;
+            int masterbedroom =jRadioButton3.isSelected()?1:0;
+            int breakfast =jCheckBox1.isSelected()?1:0;
+            int lunch=jCheckBox2.isSelected()?1:0;
+            int dinner=jCheckBox3.isSelected()?1:0;
+            int MaxAdlut= jComboBox1.getSelectedIndex()==0?1:jComboBox1.getSelectedIndex()==1?2:jComboBox1.getSelectedIndex()==2?3:4;
+            int MaxMinors= jComboBox2.getSelectedIndex()==0?1:jComboBox2.getSelectedIndex()==1?2:jComboBox2.getSelectedIndex()==2?3:4;
+
+            int days = reserve.calculateDays(checkInDate, checkOutDate);
+            int cost = reserve.calculateCost(ac, masterbedroom, breakfast, lunch, dinner);
+            double Totalprice = reserve.calculatePrice(cost);
+            reserve.getPrice(checkInDate, checkOutDate, roomNo, reservedBy, ac,  masterbedroom, Totalprice, pricePerDay, days, breakfast,  lunch,  dinner);
+            String price ="Rs. ";
+            jLabel16.setText(price + reserve.getPrice());
+
+            if(JOptionPane.showConfirmDialog(null, "Do you like to go with selected Room Which cost Rs. "+reserve.getPrice(), "Select Room" ,0)==0){
+                reserve.tmpReserve( checkInDate, checkOutDate, roomNo, reservedBy, ac,  masterbedroom, Totalprice, pricePerDay, days, breakfast,  lunch,  dinner);
+                Final page = new Final();
+                page.setVisible(true);
+                dispose();
+
+            }
+            else {
+
+            }
+
+        }
+        catch(HeadlessException | NumberFormatException e){
+            JOptionPane.showMessageDialog(null, e);
+        }*/
+    }//GEN-LAST:event_roomCheckMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+      int x=JOptionPane.showConfirmDialog(null,"Do you want to really update Reservation?");
+      
+      if(x==0)
+      {
+          String reserved = null;
+         
+        try{
+            Reservation re=new Reservation();
+            String rid=re.getResId();
+            String iden=re.getIdentity();
+            
+        
+        
+    
+              JOptionPane.showMessageDialog(null,"Success");
+
+              
+              Date checkin=jDateChooser1.getDate();
+              Date checkout=jDateChooser2.getDate();
+              
+             
+              
+             
+              
+                
+              
+              
+            
+              
+               
+              try{
+                  //DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                  DateFormat df = new SimpleDateFormat("yyyy-MM-dd ");
+                  String formattedcheckinDate = df.format(checkin);
+                  String formattedcheckoutDate = df.format(checkout);
+                  //Date startDate = df.parse(startDateString);
+                  
+                
+                  String w="update  reservation set checkindate='"+formattedcheckinDate+"',checkoutdate='"+formattedcheckoutDate+"',ac='"+ac+"',masterbedroom='"+masterbedroom+"',breakfast='"+breakfast+"',lunch='"+lunch+"',dinner='"+dinner+"'"
+                          + "where reservationId='"+rid+"'";
+                                                                                           
+                  pst =con.prepareStatement(w);
+                  pst.execute(w);
+                  
+                 
+                  
+              }
+          
+              
+           catch (Exception ex) {
+                  JOptionPane.showMessageDialog(null,ex);                
+                            }
+            
+        }
+        
+        
+       catch(Exception ex){
+          JOptionPane.showMessageDialog(null,ex);
+              }
+      }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jRadioButtonmnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonmnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButtonmnActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+  
+        try{
+      
+   
+                      
+               //int NoofAdult=Integer.parseInt(jComboBoxa.getSelectedItem().toString());
+               //int NoofMinor=Integer.parseInt(jComboBoxm.getSelectedItem().toString());
+          
+            String q="select * from room where ac='"+ac+"' and not reserved='reserved'";
+            
+            
+           
+            pst =con.prepareStatement(q);
+            rs=pst.executeQuery(q);
+            roomCheck.setModel(DbUtils.resultSetToTableModel(rs));
+  
+
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void BtnayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnayActionPerformed
+        
+    }//GEN-LAST:event_BtnayActionPerformed
+
+    private void BtnanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnanActionPerformed
+
+    private void jCheckBoxBFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxBFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxBFActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    
+          if(Btnay.isSelected()){
+                  ac=1;
+              }
+              else
+                  ac=0;
+              
+              //Check Masterbedroom
+              if(jRadioButtonmy.isSelected()){
+                  masterbedroom=1;
+              }
+              else
+                  masterbedroom=0;
+              //Check Food
+              
+              if(jCheckBoxBF.isSelected())
+                  breakfast = 1;
+              if( jCheckBoxL.isSelected())
+                  lunch =1;
+           if(jCheckBoxD.isSelected())
+                  dinner = 1;
+              
+    Reservation re=new Reservation();
+    int calculateCost = re.calculateCost(ac, masterbedroom, breakfast, lunch, dinner);
+                  
+    jLabelp.setText(Double.toString(re.calculatePrice(calculateCost)));
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ModifyReservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ModifyReservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ModifyReservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ModifyReservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ModifyReservation().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton Btnan;
+    private javax.swing.JRadioButton Btnay;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JCheckBox jCheckBoxBF;
+    private javax.swing.JCheckBox jCheckBoxD;
+    private javax.swing.JCheckBox jCheckBoxL;
+    private javax.swing.JComboBox jComboBoxa;
+    private javax.swing.JComboBox jComboBoxm;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelp;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JRadioButton jRadioButtonmn;
+    private javax.swing.JRadioButton jRadioButtonmy;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable roomCheck;
+    // End of variables declaration//GEN-END:variables
+}
